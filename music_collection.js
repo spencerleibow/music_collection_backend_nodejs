@@ -4,6 +4,8 @@ const port = 3000;
 
 const artists = [
 	{name: "Acuostic Alchemy"},
+	{name: "Craig Chaquico"},
+	{name: "David Benoit"},
 	{name: "Fourplay"},
 	{name: "Hiroshima"},
 	{name: "Pat Metheny"},
@@ -15,6 +17,7 @@ const artists = [
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.write(JSON.stringify(artists, null, 2));
   res.end();
 });
