@@ -22,7 +22,6 @@ app.get("/artists", function(req, res) {
 		if (err) throw err;
 		con.query("SELECT * from artist", function (err, result) {
 		    if (err) throw err;
-		    console.log("artists=" + JSON.stringify(result, null, 2));
 			res.json(result, null, 2);
 		  });
 	});
@@ -35,18 +34,23 @@ app.get("/albums", function(req, res) {
 	con.connect(function(err) {
 		if (err) throw err;
 		var sql;
-		if (	artist_id == null) {
+		if (artist_id == null) {
 			sql = "SELECT a.id, a.name name, b.name artist_name, a.year from album a" +
 			" INNER JOIN artist b ON a.artist_id = b.id";
+			con.query(sql, function (err, result) {
+				if (err) throw err;
+				console.log("artists=" + JSON.stringify(result, null, 2));
+				res.json(result, null, 2);
+			});
 		} else { 
 			sql = "SELECT a.id, a.name, a.year from album a" +
-			" WHERE a.artist_id = " + artist_id;
+			" WHERE a.artist_id = ?";
+			con.query(sql, [artist_id], function (err, result) {
+				if (err) throw err;
+				console.log("artists=" + JSON.stringify(result, null, 2));
+				res.json(result, null, 2);
+			});
 		}
-		con.query(sql, function (err, result) {
-			if (err) throw err;
-			console.log("artists=" + JSON.stringify(result, null, 2));
-			res.json(result, null, 2);
-		});
 	});
 });
 
